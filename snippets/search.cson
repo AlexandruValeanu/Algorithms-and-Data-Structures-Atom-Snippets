@@ -3,15 +3,99 @@
   'Binary Search':
     'prefix': 'binary-search'
     'body': '''
-    	long long bsearch(long long low, long long high)
-    	{
-    		if (low >= high) {
-    		   return low;
-    		}
-    		ll mid = low + (high-low)/2;
-    		bool condition =           			//test for set of 2 elements, no yes! if wrong, change mid
-    		condition ? low = mid : high = mid-1 ;          // maintain the invariant [low,high)
-    								// other case, low = mid+1 : high = mid , invariant is (low,high]
-    		return bsearch(low,high);
+    	${1:int} binary_search(${1:int} low, ${1:int} high, ${1:int} key){
+        auto l = low, r = high;
+        auto found = static_cast<${1:int}>(-1);
+
+        while (l <= r){
+          auto m = (l + r) / 2;
+
+          if (${2:predicate}){
+            found = m;
+            r = m - 1;
+          }
+          else{
+            l = m + 1;
+          }
+        }
+
+        return found;
     	}
     '''
+
+    'Binary Search by Lifting':
+      'prefix': 'binary-search-lifting'
+      'body': '''
+      	int binary_search(vector<${1:int}> A, ${1:int} key){
+          const int N = (int)A.size();
+          int i, step;
+
+          for (step = 1; step < N; step <<= 1);
+
+          for (i = 0; step; step >>= 1)
+              if (i + step < N && A[i + step] <= key)
+                 i += step;
+
+          return i;
+      	}
+      '''
+
+    'Ternary Search Max':
+      'prefix': 'ternary-search-max'
+      'body': '''
+        ${1:double} ternary_search_max(${2: f}, ${1:double} low, ${1:double} high){
+          constexpr int num_iterations = 100;
+
+          for (int i = 0; i < num_iterations; i++){
+            m1 = low + (high - low) / 3
+            m2 = high - (high - low) / 3
+
+            if (${2: f}(m1) < ${2: f}(m2))
+              low = m1
+            else
+              high = m2
+          }
+
+          return (low + high) / 2
+        }
+      '''
+
+    'Ternary Search Min':
+      'prefix': 'ternary-search-min'
+      'body': '''
+        ${1:double} ternary_search_min(${2: f}, ${1:double} low, ${1:double} high){
+          constexpr int num_iterations = 100;
+
+          for (int i = 0; i < num_iterations; i++){
+            m1 = low + (high - low) / 3
+            m2 = high - (high - low) / 3
+
+            if (${2: f}(m1) > ${2: f}(m2))
+              low = m1
+            else
+              high = m2
+          }
+
+          return (low + high) / 2
+        }
+      '''
+
+      'Ternary Search on Integers':
+        'prefix': 'ternary-search-integers'
+        'body': '''
+          // max-version
+          int ternary_search_int(${1: f}){
+            int low = -1, high = ${2: n};
+
+            while (high - low > 1){
+                auto m = (low + high) / 2;
+
+                if (${1: f}(m) > ${1: f}(m + 1))
+                     high = m;
+                else
+                     low = m;
+            }
+
+            return low + 1;
+          }
+        '''
