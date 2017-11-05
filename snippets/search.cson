@@ -3,7 +3,7 @@
   'Binary Search':
     'prefix': 'binary-search'
     'body': '''
-    	ll bsearch(ll low, ll high)
+    	long long bsearch(long long low, long long high)
     	{
     		if (low >= high) {
     		   return low;
