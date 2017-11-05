@@ -26,7 +26,7 @@
     'Binary Search by Lifting':
       'prefix': 'binary-search-lifting'
       'body': '''
-      	int binary_search(vector<${1:int}> A, ${1:int} key){
+      	int binary_search(std::vector<${1:int}> A, ${1:int} key){
           const int N = (int)A.size();
           int i, step;
 
